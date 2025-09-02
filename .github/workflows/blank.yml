@@ -1,0 +1,20 @@
+name: Schedule Workflow
+
+on:
+  schedule:
+    - cron: "0 */6 * * *"  # setiap 6 jam
+  workflow_dispatch:        # supaya bisa dijalankan manual juga
+
+jobs:
+  run-script:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Jalankan Script
+        run: |
+          sudo apt install nodejs
+          sudo apt install npm
+          npm i -g n8n
+          n8n &
+          ssh -R 80:localhost:5678 nokey@localhost.run
+          sleep 60000
