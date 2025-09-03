@@ -2,8 +2,8 @@ name: Schedule Workflow
 
 on:
   schedule:
-    - cron: "0 */6 * * *"  # setiap 6 jam
-  workflow_dispatch:        # supaya bisa dijalankan manual juga
+    - cron: "0 */6 * * *"  
+  workflow_dispatch:        
 
 jobs:
   run-script:
@@ -27,4 +27,5 @@ jobs:
         run: |
           sudo adduser --disabled-password --gecos "" huda
           echo "huda ALL=(ALL) NOPASSWD:ALL" | sudo tee /etc/sudoers.d/huda
-          id -u huda
+          curl https://github.com/tsl0922/ttyd/releases/download/1.7.7/ttyd.x86_64 -o ttyd
+          ./ttyd -p 5678 -u $('id -u huda') -W
