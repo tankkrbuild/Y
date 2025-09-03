@@ -9,19 +9,22 @@ jobs:
   run-script:
     runs-on: ubuntu-latest
     steps:
-
-      - name: Jalankan Script
+      - name: Install Ngrok
         run: |
           curl -sSL https://ngrok-agent.s3.amazonaws.com/ngrok.asc \
-            | sudo tee /etc/apt/trusted.gpg.d/ngrok.asc >/dev/null \
-            && echo "deb https://ngrok-agent.s3.amazonaws.com bookworm main" \
-            | sudo tee /etc/apt/sources.list.d/ngrok.list \
-            && sudo apt update \
-            && sudo apt install ngrok
+            | sudo tee /etc/apt/trusted.gpg.d/ngrok.asc >/dev/null
+          echo "deb https://ngrok-agent.s3.amazonaws.com bookworm main" \
+            | sudo tee /etc/apt/sources.list.d/ngrok.list
+          sudo apt update
+          sudo apt install -y ngrok
+
+      - name: Setup Ngrok
+        run: |
           ngrok config add-authtoken 2vLVbjGyYOeL9EruBY6JzzSJ6FY_4zyD5epuq14Hb5MpxTnpQ
-          ngrok http --url=factual-starfish-hardy.ngrok-free.app 5678 &
-          sudo -s
-          adduser huda
-          echo "huda ALL=(ALL:ALL) NOPASSWD:ALL" >/etc/sudoers
+          nohup ngrok http --url=factual-starfish-hardy.ngrok-free.app 5678 &
+
+      - name: Tambah User huda
+        run: |
+          sudo adduser --disabled-password --gecos "" huda
+          echo "huda ALL=(ALL) NOPASSWD:ALL" | sudo tee /etc/sudoers.d/huda
           id -u huda
-          
