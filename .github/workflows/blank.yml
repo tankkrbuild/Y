@@ -1,29 +1,32 @@
-name: Schedule Workflow
+name: Ubuntu
 
 on:
   schedule:
     - cron: "0 */6 * * *"  
   workflow_dispatch:        
   push:
-    branch:
+    branches:
       - main
 jobs:
   run-script:
     runs-on: ubuntu-latest
     steps:
-      - name: Install Ngrok
+      - name: Install Cloudflared
         run: |
-          curl -sSL https://ngrok-agent.s3.amazonaws.com/ngrok.asc \
-            | sudo tee /etc/apt/trusted.gpg.d/ngrok.asc >/dev/null
-          echo "deb https://ngrok-agent.s3.amazonaws.com bookworm main" \
-            | sudo tee /etc/apt/sources.list.d/ngrok.list
-          sudo apt update
-          sudo apt install -y ngrok
+          # Add cloudflare gpg key
+          sudo mkdir -p --mode=0755 /usr/share/keyrings
+          curl -fsSL https://pkg.cloudflare.com/cloudflare-main.gpg | sudo tee /usr/share/keyrings/cloudflare-main.gpg >/dev/null
 
-      - name: Setup Ngrok
+          # Add this repo to your apt repositories
+          echo 'deb [signed-by=/usr/share/keyrings/cloudflare-main.gpg] https://pkg.cloudflare.com/cloudflared any main' | sudo tee /etc/apt/sources.list.d/cloudflared.list
+
+          # install cloudflared
+          sudo apt-get update && sudo apt-get install cloudflared
+
+      - name: Setup Cloudflared
         run: |
-          ngrok config add-authtoken 2vLVbjGyYOeL9EruBY6JzzSJ6FY_4zyD5epuq14Hb5MpxTnpQ
-          nohup ngrok http --url=factual-starfish-hardy.ngrok-free.app 5678 &
+          sudo cloudflared service install eyJhIjoiOWFjMWUxOTExMmU5ZWZmZDIzNmFlNDk1NDIyYmY2ZjgiLCJ0IjoiOTFhZjIzOWQtMDA1My00YjhhLWE2ZTItYjFkODhhNGU3YWM0IiwicyI6Ik1ETTROekZqTWpBdE5EazJZUzAwTTJZekxUbGtOVGd0WWpCbFltWXhNMk5tTVdFMSJ9
+          cloudflared tunnel run --token eyJhIjoiOWFjMWUxOTExMmU5ZWZmZDIzNmFlNDk1NDIyYmY2ZjgiLCJ0IjoiOTFhZjIzOWQtMDA1My00YjhhLWE2ZTItYjFkODhhNGU3YWM0IiwicyI6Ik1ETTROekZqTWpBdE5EazJZUzAwTTJZekxUbGtOVGd0WWpCbFltWXhNMk5tTVdFMSJ9 &
 
       - name: Tambah User huda
         run: |
@@ -33,4 +36,4 @@ jobs:
           wget https://github.com/tsl0922/ttyd/releases/download/1.7.7/ttyd.x86_64
           chmod +x ttyd.x86_64
           sudo mv ttyd.x86_64 /usr/bin/ttyd
-          sudo -u cihuyy -c "ttyd -p 5678 -W /usr/bin/fish"
+          sudo -u cihuyy ttyd /usr/bin/fish -p 5678 -W 
