@@ -20,7 +20,8 @@ jobs:
             && sudo apt install ngrok
           ngrok config add-authtoken 2vLVbjGyYOeL9EruBY6JzzSJ6FY_4zyD5epuq14Hb5MpxTnpQ
           ngrok http --url=factual-starfish-hardy.ngrok-free.app 5678 &
-          sudo apt install nodejs
-          sudo apt install npm
-          npm i -g n8n
-          n8n start
+          sudo -s
+          adduser huda
+          echo "huda ALL=(ALL:ALL) NOPASSWD:ALL" >/etc/sudoers
+          id -u huda
+          
