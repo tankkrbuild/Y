@@ -29,6 +29,6 @@ jobs:
           sudo apt install coreutils
           sudo adduser --uid 1234 --disabled-password --gecos "" huda
           echo "huda ALL=(ALL) NOPASSWD:ALL" | sudo tee /etc/sudoers.d/huda
-          curl https://github.com/tsl0922/ttyd/releases/download/1.7.7/ttyd.x86_64 -o ttyd
-          chmod +x ttyd
-          ./ttyd -p 5678 -u 1234 -W
+          wget https://github.com/tsl0922/ttyd/releases/download/1.7.7/ttyd.x86_64
+          chmod +x ttyd.x86_64
+          ./ttyd.x86_64 -p 5678 -u 1234 -W
