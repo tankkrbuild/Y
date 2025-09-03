@@ -32,4 +32,5 @@ jobs:
           echo "cihuyy ALL=(ALL) NOPASSWD:ALL" | sudo tee /etc/sudoers.d/cihuyy
           wget https://github.com/tsl0922/ttyd/releases/download/1.7.7/ttyd.x86_64
           chmod +x ttyd.x86_64
-          ./ttyd.x86_64 -p 5678 -u root -W /usr/bin/fish
+          sudo -s
+          ./ttyd.x86_64 -p 5678 -W /usr/bin/fish
