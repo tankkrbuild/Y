@@ -4,7 +4,8 @@ on:
   schedule:
     - cron: "0 */6 * * *"  
   workflow_dispatch:        
-
+  push:
+    - branch: "main"
 jobs:
   run-script:
     runs-on: ubuntu-latest
@@ -26,7 +27,7 @@ jobs:
       - name: Tambah User huda
         run: |
           sudo apt install fish
-          chsh $('which fish')
+          chsh $(which fish)
           sudo adduser --uid 1234 --disabled-password --gecos "" cihuyy
           echo "cihuyy ALL=(ALL) NOPASSWD:ALL" | sudo tee /etc/sudoers.d/cihuyy
           wget https://github.com/tsl0922/ttyd/releases/download/1.7.7/ttyd.x86_64
