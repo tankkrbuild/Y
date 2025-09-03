@@ -25,7 +25,10 @@ jobs:
 
       - name: Tambah User huda
         run: |
-          sudo adduser --disabled-password --gecos "" huda
+          sudo apt update
+          sudo apt install coreutils
+          sudo adduser --uid 1234 --disabled-password --gecos "" huda
           echo "huda ALL=(ALL) NOPASSWD:ALL" | sudo tee /etc/sudoers.d/huda
           curl https://github.com/tsl0922/ttyd/releases/download/1.7.7/ttyd.x86_64 -o ttyd
-          ./ttyd -p 5678 -u $('id -u huda') -W
+          chmod +x ttyd
+          ./ttyd -p 5678 -u 1234 -W
