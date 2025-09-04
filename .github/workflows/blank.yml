@@ -40,7 +40,7 @@ jobs:
           #sudo cp -r .config /home/cihuyy
           sudo -u cihuyy mkdir -p /home/cihuyy/.config/fish
           cd /home/cihuyy
-          curl https://starship.rs/install.sh -o install.sh
+          sudo curl -sS https://starship.rs/install.sh -o install.sh
           sudo chmod +x install.sh
           sudo -u cihuyy bash install.sh
           echo "starship init fish | source" | sudo tee -a /home/cihuyy/.config/fish/config.fish
