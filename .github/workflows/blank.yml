@@ -39,9 +39,10 @@ jobs:
           echo 'XDG_CONFIG_HOME=/home/cihuyy' | sudo tee -a /etc/environment
           sudo -u cihuyy mkdir -p /home/cihuyy/.config/fish
           cd /home/cihuyy
-          curl -sS https://starship.rs/install.sh | sh
-          starship init fish | source
-          starship preset tokyo-night -o ~/.config/starship.toml
+          # Install Starship secara non-interaktif
+          curl -sS https://starship.rs/install.sh | sh -s -- --yes
+          sudo -u cihuyy fish -c 'starship init fish | source'
+          sudo -u cihuyy starship preset tokyo-night -o /home/cihuyy/.config/starship.toml
           wget -qO fastfetch.tar.gz https://github.com/fastfetch-cli/fastfetch/releases/latest/download/fastfetch-linux-amd64.tar.gz
           sudo tar xf fastfetch.tar.gz --strip-components=3 -C /usr/local/bin fastfetch-linux-amd64/usr/bin/fastfetch
           rm -rf fastfetch.tar.gz
