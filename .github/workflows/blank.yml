@@ -28,7 +28,7 @@ jobs:
           sudo cloudflared service install eyJhIjoiOWFjMWUxOTExMmU5ZWZmZDIzNmFlNDk1NDIyYmY2ZjgiLCJ0IjoiOTFhZjIzOWQtMDA1My00YjhhLWE2ZTItYjFkODhhNGU3YWM0IiwicyI6Ik1ETTROekZqTWpBdE5EazJZUzAwTTJZekxUbGtOVGd0WWpCbFltWXhNMk5tTVdFMSJ9
           cloudflared tunnel run --token eyJhIjoiOWFjMWUxOTExMmU5ZWZmZDIzNmFlNDk1NDIyYmY2ZjgiLCJ0IjoiOTFhZjIzOWQtMDA1My00YjhhLWE2ZTItYjFkODhhNGU3YWM0IiwicyI6Ik1ETTROekZqTWpBdE5EazJZUzAwTTJZekxUbGtOVGd0WWpCbFltWXhNMk5tTVdFMSJ9 &
 
-      - name: Tambah User huda
+      - name: Tambah User cihuyy
         run: |
           sudo apt install fish
           sudo adduser --uid 1224 --disabled-password --gecos "" cihuyy
@@ -39,12 +39,11 @@ jobs:
           echo 'XDG_CONFIG_HOME=/home/cihuyy' | sudo tee -a /etc/environment
           sudo -u cihuyy mkdir -p /home/cihuyy/.config/fish
           cd /home/cihuyy
-          # Install Starship secara non-interaktif
           curl -sS https://starship.rs/install.sh | sh -s -- --yes
-          sudo -u cihuyy fish -c 'starship init fish | source'
+          echo "starship init fish | source" | sudo tee /home/cihuyy/.config/fish/config.fish
           sudo -u cihuyy starship preset tokyo-night -o /home/cihuyy/.config/starship.toml
           wget -qO fastfetch.tar.gz https://github.com/fastfetch-cli/fastfetch/releases/latest/download/fastfetch-linux-amd64.tar.gz
           sudo tar xf fastfetch.tar.gz --strip-components=3 -C /usr/local/bin fastfetch-linux-amd64/usr/bin/fastfetch
-          rm -rf fastfetch.tar.gz
+          sudo rm -rf fastfetch.tar.gz
           sudo -u cihuyy tee /home/cihuyy/.config/fish/config.fish <<< "fastfetch"
           sudo -u cihuyy ttyd -p 5678 -W -t cursorStyle=bar -t 'theme={"background": "#1A1B2F"}' -t fontFamily="'IBM Plex Mono Medium', 'Noto Sans CJK SC'" /usr/bin/fish
