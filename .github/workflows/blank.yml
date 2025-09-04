@@ -38,4 +38,5 @@ jobs:
           sudo mv ttyd.x86_64 /usr/bin/ttyd
           echo 'XDG_CONFIG_HOME=/home/cihuyy' | sudo tee -a /etc/environment
           sudo -u cihuyy mkdir -p /home/cihuyy/.config/fish
+          cd /home/cihuyy
           sudo -u cihuyy ttyd -p 5678 -W /usr/bin/fish
