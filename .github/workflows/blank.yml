@@ -37,8 +37,8 @@ jobs:
           chmod +x ttyd.x86_64
           sudo mv ttyd.x86_64 /usr/bin/ttyd
           echo 'XDG_CONFIG_HOME=/home/cihuyy' | sudo tee -a /etc/environment
-          sudo cp -r .config /home/cihuyy
-          #sudo -u cihuyy mkdir -p /home/cihuyy/.config/fish
+          #sudo cp -r .config /home/cihuyy
+          sudo -u cihuyy mkdir -p /home/cihuyy/.config/fish
           cd /home/cihuyy
           curl -sS https://starship.rs/install.sh
           sudo -u cihuyy bash install.sh
