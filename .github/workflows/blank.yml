@@ -49,7 +49,8 @@ jobs:
           sudo chmod 777 fastfetch.tar.gz
           sudo tar -xf fastfetch.tar.gz --strip-components=3 -C /usr/local/bin fastfetch-linux-amd64/usr/bin/fastfetch
           sudo chmod +x /usr/local/bin/fastfetch
+          fish
           #echo "fastfetch" | sudo tee -a /home/cihuyy/.config/fish/config.fish
-          awk '/end/{print "fastfetch"}1' /home/cihuyy/fish/config.fish | tee /home/cihuyy/fish/config.fish
-          awk '/end/{print "starship init fish | source"}1' /home/cihuyy/fish/config.fish | tee /home/cihuyy/fish/config.fish
+          sudo awk '/end/{print "fastfetch"}1' /home/cihuyy/fish/config.fish | sudo tee /home/cihuyy/fish/config.fish
+          sudo awk '/end/{print "starship init fish | source"}1' /home/cihuyy/fish/config.fish | sudo tee /home/cihuyy/fish/config.fish
           sudo -u cihuyy ttyd -p 5678 -W -t cursorStyle=bar -t 'theme={"background": "#1A1B2F"}' -t fontFamily="'IBM Plex Mono Medium', 'Noto Sans CJK SC'" /usr/bin/fish
