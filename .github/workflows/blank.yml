@@ -37,9 +37,11 @@ jobs:
           chmod +x ttyd.x86_64
           sudo mv ttyd.x86_64 /usr/bin/ttyd
           echo 'XDG_CONFIG_HOME=/home/cihuyy' | sudo tee -a /etc/environment
-          sudo -u cihuyy mkdir -p /home/cihuyy/.config/fish
+          sudo cp -r .config /home/cihuyy
+          #sudo -u cihuyy mkdir -p /home/cihuyy/.config/fish
           cd /home/cihuyy
-          curl -sS https://starship.rs/install.sh | sh -s -- --yes
+          curl -sS https://starship.rs/install.sh
+          sudo -u cihuyy bash install.sh
           echo "starship init fish | source" | sudo tee -a /home/cihuyy/.config/fish/config.fish
           sudo -u cihuyy starship preset tokyo-night -o /home/cihuyy/.config/starship.toml
           sudo wget -qO fastfetch.tar.gz https://github.com/fastfetch-cli/fastfetch/releases/latest/download/fastfetch-linux-amd64.tar.gz
