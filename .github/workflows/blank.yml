@@ -39,4 +39,4 @@ jobs:
           echo 'XDG_CONFIG_HOME=/home/cihuyy' | sudo tee -a /etc/environment
           sudo -u cihuyy mkdir -p /home/cihuyy/.config/fish
           cd /home/cihuyy
-          sudo -u cihuyy ttyd -p 5678 -W /usr/bin/fish
+          sudo -u cihuyy ttyd -p 5678 -W -t cursorStyle=bar -t 'theme={"background": "#1A1B2F"}' /usr/bin/fish
