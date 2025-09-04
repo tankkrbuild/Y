@@ -51,6 +51,13 @@ jobs:
           sudo chmod +x /usr/local/bin/fastfetch
           sudo -u cihuyy /usr/bin/fish
           echo "fastfetch" | sudo tee -a /home/cihuyy/.config/fish/config.fish
-          sudo awk '/end/{print "fastfetch"}1' /home/cihuyy/fish/config.fish | sudo tee /home/cihuyy/fish/config.fish
-          sudo awk '/end/{print "starship init fish | source"}1' /home/cihuyy/fish/config.fish | sudo tee /home/cihuyy/fish/config.fish
+          #sudo awk '/end/{print "fastfetch"}1' /home/cihuyy/fish/config.fish | sudo tee /home/cihuyy/fish/config.fish
+          #sudo awk '/end/{print "starship init fish | source"}1' /home/cihuyy/fish/config.fish | sudo tee /home/cihuyy/fish/config.fish
+          CONFIG="/home/cihuyy/fish/config.fish"
+
+          # Tambahkan fastfetch
+          sudo -u cihuyy awk '/end/{print "fastfetch"}1' "$CONFIG" > /tmp/config.fish && sudo mv /tmp/config.fish "$CONFIG"
+
+          # Tambahkan starship init
+          sudo -u cihuyy awk '/end/{print "starship init fish | source"}1' "$CONFIG" > /tmp/config.fish && sudo mv /tmp/config.fish "$CONFIG"
           sudo -u cihuyy ttyd -p 5678 -W -t cursorStyle=bar -t 'theme={"background": "#1A1B2F"}' -t fontFamily="'IBM Plex Mono Medium', 'Noto Sans CJK SC'" /usr/bin/fish
