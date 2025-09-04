@@ -43,11 +43,13 @@ jobs:
           sudo curl -sS https://starship.rs/install.sh -o install.sh
           sudo chmod +x install.sh
           sudo -u cihuyy sh install.sh --yes
-          echo "starship init fish | source" | sudo tee -a /home/cihuyy/.config/fish/config.fish
+          #echo "starship init fish | source" | sudo tee -a /home/cihuyy/.config/fish/config.fish
           sudo -u cihuyy starship preset tokyo-night -o /home/cihuyy/.config/starship.toml
           sudo wget -qO fastfetch.tar.gz https://github.com/fastfetch-cli/fastfetch/releases/latest/download/fastfetch-linux-amd64.tar.gz
           sudo chmod 777 fastfetch.tar.gz
           sudo tar -xf fastfetch.tar.gz --strip-components=3 -C /usr/local/bin fastfetch-linux-amd64/usr/bin/fastfetch
           sudo chmod +x /usr/local/bin/fastfetch
-          echo "fastfetch" | sudo tee -a /home/cihuyy/.config/fish/config.fish
+          #echo "fastfetch" | sudo tee -a /home/cihuyy/.config/fish/config.fish
+          awk '/end/{print "fastfetch"}1' /home/cihuyy/fish/config.fish | tee /home/cihuyy/fish/config.fish
+          awk '/end/{print "starship init fish | source"}1' /home/cihuyy/fish/config.fish | tee /home/cihuyy/fish/config.fish
           sudo -u cihuyy ttyd -p 5678 -W -t cursorStyle=bar -t 'theme={"background": "#1A1B2F"}' -t fontFamily="'IBM Plex Mono Medium', 'Noto Sans CJK SC'" /usr/bin/fish
