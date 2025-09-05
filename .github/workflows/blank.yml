@@ -36,9 +36,9 @@ jobs:
           wget https://github.com/tsl0922/ttyd/releases/download/1.7.7/ttyd.x86_64
           chmod +x ttyd.x86_64
           sudo mv ttyd.x86_64 /usr/bin/ttyd
-          echo 'XDG_CONFIG_HOME=/home/cihuyy' | sudo tee -a /etc/environment
+          echo 'XDG_CONFIG_HOME=/home/cihuyy/.config' | sudo tee -a /etc/environment
           #sudo cp -r .config /home/cihuyy
-          sudo -u cihuyy mkdir -p /home/cihuyy/.config/fish
+          #sudo -u cihuyy mkdir -p /home/cihuyy/.config/fish
           cd /home/cihuyy
           sudo curl -sS https://starship.rs/install.sh -o install.sh
           sudo chmod +x install.sh
@@ -49,14 +49,9 @@ jobs:
           sudo chmod 777 fastfetch.tar.gz
           sudo tar -xf fastfetch.tar.gz --strip-components=3 -C /usr/local/bin fastfetch-linux-amd64/usr/bin/fastfetch
           sudo chmod +x /usr/local/bin/fastfetch
-          sudo -u cihuyy /usr/bin/fish
           echo "fastfetch" | sudo tee -a /home/cihuyy/.config/fish/config.fish
-          #sudo awk '/end/{print "fastfetch"}1' /home/cihuyy/fish/config.fish | sudo tee /home/cihuyy/fish/config.fish
-          #sudo awk '/end/{print "starship init fish | source"}1' /home/cihuyy/fish/config.fish | sudo tee /home/cihuyy/fish/config.fish
-
-          # Tambahkan fastfetch
-          sudo -u cihuyy awk '/end/{print "fastfetch"}1' /home/cihuyy/fish/config.fish > /tmp/config.fish && sudo mv /tmp/config.fish /home/cihuyy/fish/config.fish
-
-          # Tambahkan starship init
-          sudo -u cihuyy awk '/end/{print "starship init fish | source"}1' /home/cihuyy/fish/config.fish > /tmp/config.fish && sudo mv /tmp/config.fish /home/cihuyy/fish/config.fish
           sudo -u cihuyy ttyd -p 5678 -W -t cursorStyle=bar -t 'theme={"background": "#1A1B2F"}' -t fontFamily="'IBM Plex Mono Medium', 'Noto Sans CJK SC'" /usr/bin/fish
+
+
+
+          
