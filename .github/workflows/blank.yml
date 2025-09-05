@@ -61,6 +61,6 @@ jobs:
           sudo tar -xf fastfetch.tar.gz --strip-components=3 -C /usr/local/bin fastfetch-linux-amd64/usr/bin/fastfetch
           sudo chmod +x /usr/local/bin/fastfetch
           echo "fastfetch" | sudo tee -a /home/cihuyy/.config/fish/config.fish
-          sudo -u cihuyy ttyd -p 5678 -W -t cursorStyle=bar -t 'theme={"background": "#1A1B2F"}' -t fontFamily="JetBrainsMono Nerd Font" /usr/bin/fish
+          sudo -u cihuyy ttyd -p 5678 -W -t cursorStyle=bar -t 'theme={"background": "#1A1B2F"}' -t fontFamily="'JetBrainsMono Nerd Font', 'JetBrainsMono NF', 'monospace'" /usr/bin/fish
 
           
