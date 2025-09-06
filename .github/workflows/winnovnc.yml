@@ -1,50 +1,51 @@
 name: noVNC Windows
 
 on:
-push:
-branches: [ "main" ]
-pull_request:
-branches: [ "main" ]
-workflow_dispatch:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
 
 jobs:
-build:
-runs-on: windows-latest
+  build:
+    runs-on: windows-latest
 
-steps:  
-  - uses: actions/checkout@v4  
+    steps:
+      - uses: actions/checkout@v4
 
-  - name: Setup TightVNC + noVNC + Cloudflared  
-    run: |  
-      mkdir C:\novnc_setup  
-      cd C:\novnc_setup  
-        
-      # Install TightVNC  
-      curl -L -o tightvnc.msi https://www.tightvnc.com/download/2.8.81/tightvnc-2.8.81-gpl-setup-64bit.msi  
-      msiexec /i tightvnc.msi /quiet /norestart ADDLOCAL=Server  
-      Start-Process -NoNewWindow -FilePath "C:\Program Files\TightVNC\tvnserver.exe"  
-        
-      # Set password (123456)  
-      reg add "HKLM\SOFTWARE\TightVNC\Server" /v Password /t REG_BINARY /d 313233343536 /f  
-        
-      # Install Python dependency  
-      pip install websockify  
-        
-      # Download noVNC  
-      curl -L -o noVNC.zip https://github.com/novnc/noVNC/archive/refs/heads/master.zip  
-      tar -xf noVNC.zip  
-      ren noVNC-master noVNC  
-        
-      # Download Cloudflared  
-      curl -L -o cloudflared.exe https://github.com/cloudflare/cloudflared/releases/download/2025.8.1/cloudflared-windows-amd64.exe  
-        
-      # Start noVNC proxy in background  
-      cd noVNC  
-      Start-Process -NoNewWindow -FilePath "python" -ArgumentList "utils/novnc_proxy --vnc localhost:5900 --listen 6080"
-        
-      # Tunggu sebentar biar noVNC siap  
-      Start-Sleep -Seconds 10  
-        
-      cd ..
-      .\cloudflared.exe tunnel run --token eyJhIjoiOWFjMWUxOTExMmU5ZWZmZDIzNmFlNDk1NDIyYmY2ZjgiLCJ0IjoiNTVkZmIxNmMtODI0Yy00MTY5LWI5ZWUtMWYxZDU0ZDliNWVkIiwicyI6Ik1XWTJaakJpWXpVdFpUTm1NUzAwWWpjNUxUaGxaV010TXpjNE5qazVZemxtTTJGbCJ9 --loglevel debug
+      - name: Setup TightVNC + noVNC + Cloudflared
+        run: |
+          mkdir C:\novnc_setup
+          cd C:\novnc_setup
+          
+          # Install TightVNC
+          curl -L -o tightvnc.msi https://www.tightvnc.com/download/2.8.81/tightvnc-2.8.81-gpl-setup-64bit.msi
+          msiexec /i tightvnc.msi /quiet /norestart ADDLOCAL=Server
+          Start-Process -NoNewWindow -FilePath "C:\Program Files\TightVNC\tvnserver.exe"
+          
+          # Set password (123456)
+          reg add "HKLM\SOFTWARE\TightVNC\Server" /v Password /t REG_BINARY /d 313233343536 /f
+          
+          # Install Python dependency
+          pip install websockify
+          
+          # Download noVNC
+          curl -L -o noVNC.zip https://github.com/novnc/noVNC/archive/refs/heads/master.zip
+          tar -xf noVNC.zip
+          ren noVNC-master noVNC
+          
+          # Download Cloudflared
+          curl -L -o cloudflared.exe https://github.com/cloudflare/cloudflared/releases/download/2025.8.1/cloudflared-windows-amd64.exe
+          
+          # Start noVNC proxy in background
+          cd noVNC
+          Start-Process -NoNewWindow -FilePath "python" -ArgumentList "utils/novnc_proxy --vnc localhost:5900 --listen 6080"
+          
+          # Tunggu sebentar biar noVNC siap
+          Start-Sleep -Seconds 10
+          
+          cd ..
+          .\cloudflared.exe tunnel run --token eyJhIjoiOWFjMWUxOTExMmU5ZWZmZDIzNmFlNDk1NDIyYmY2ZjgiLCJ0IjoiNTVkZmIxNmMtODI0Yy00MTY5LWI5ZWUtMWYxZDU0ZDliNWVkIiwicyI6Ik1XWTJaakJpWXpVdFpUTm1NUzAwWWpjNUxUaGxaV010TXpjNE5qazVZemxtTTJGbCJ9 --loglevel debug
 
+          Start-Sleep -Seconds 20600
