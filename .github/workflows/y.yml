@@ -44,6 +44,8 @@ jobs:
 
           Unregister-ScheduledTask -TaskName $taskName -Confirm:$false
 
+          netstat -an | Select-String ":5900"
+
           # Install Python dependency
           pip install websockify
 
@@ -64,3 +66,5 @@ jobs:
 
           # Install Cloudflared service
           .\cloudflared.exe service install eyJhIjoiOWFjMWUxOTExMmU5ZWZmZDIzNmFlNDk1NDIyYmY2ZjgiLCJ0IjoiNTVkZmIxNmMtODI0Yy00MTY5LWI5ZWUtMWYxZDU0ZDliNWVkIiwicyI6Ik1XWTJaakJpWXpVdFpUTm1NUzAwWWpjNUxUaGxaV010TXpjNE5qazVZemxtTTJGbCJ9
+
+          Start-Sleep -Seconds 21600
