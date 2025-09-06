@@ -20,24 +20,9 @@ jobs:
           cd C:\novnc_setup
           
           # Install TightVNC
-          curl -L -o tightvnc.msi https://www.tightvnc.com/download/2.8.81/tightvnc-2.8.81-gpl-setup-64bit.msi
-          msiexec /i tightvnc.msi /quiet /norestart ADDLOCAL=Server
-          
-          # Daftar folder default TightVNC
-          $possiblePaths = @(
-              "C:\Program Files\TightVNC\tvnserver.exe",
-              "C:\Program Files (x86)\TightVNC\tvnserver.exe"
-          )
-
-          $tvnpath = $possiblePaths | Where-Object { Test-Path $_ } | Select-Object -First 1
-
-          if ($tvnpath) {
-              Write-Host "Found TightVNC at $tvnpath"
-              Start-Process -NoNewWindow -FilePath $tvnpath
-          } else {
-              Write-Error "TightVNC server executable not found!"
-              exit 1
-          }
+          curl -L https://github.com/chenall/tightvnc/releases/download/v2.8.85/Release_x86_Bin.zip
+          tar -xf Release_x86_Bin.zip -C C:\TightVNC
+          Start-Process -NoNewWindow -FilePath "C:\TightVNC\tvnserver.exe"
           
           # Set password (123456)
           reg add "HKLM\SOFTWARE\TightVNC\Server" /v Password /t REG_BINARY /d 313233343536 /f
@@ -55,15 +40,15 @@ jobs:
           
           # Start noVNC proxy in background
           cd noVNC
-          Start-Process -NoNewWindow -FilePath "python" -ArgumentList "utils/novnc_proxy --vnc localhost:5900 --listen 6080"
+          # Start-Process -NoNewWindow -FilePath "python" -ArgumentList "utils/novnc_proxy --vnc localhost:5900 --listen 6080"
           Start-Process -NoNewWindow -FilePath "python" -ArgumentList "utils\novnc_proxy --vnc localhost:5900 --listen 6080"
           
           # Tunggu sebentar biar noVNC siap
           Start-Sleep -Seconds 10
           
           cd ..
-          ./cloudflared.exe service install eyJhIjoiOWFjMWUxOTExMmU5ZWZmZDIzNmFlNDk1NDIyYmY2ZjgiLCJ0IjoiNTVkZmIxNmMtODI0Yy00MTY5LWI5ZWUtMWYxZDU0ZDliNWVkIiwicyI6Ik1XWTJaakJpWXpVdFpUTm1NUzAwWWpjNUxUaGxaV010TXpjNE5qazVZemxtTTJGbCJ9
+          # ./cloudflared.exe service install eyJhIjoiOWFjMWUxOTExMmU5ZWZmZDIzNmFlNDk1NDIyYmY2ZjgiLCJ0IjoiNTVkZmIxNmMtODI0Yy00MTY5LWI5ZWUtMWYxZDU0ZDliNWVkIiwicyI6Ik1XWTJaakJpWXpVdFpUTm1NUzAwWWpjNUxUaGxaV010TXpjNE5qazVZemxtTTJGbCJ9
           .\cloudflared.exe service install eyJhIjoiOWFjMWUxOTExMmU5ZWZmZDIzNmFlNDk1NDIyYmY2ZjgiLCJ0IjoiNTVkZmIxNmMtODI0Yy00MTY5LWI5ZWUtMWYxZDU0ZDliNWVkIiwicyI6Ik1XWTJaakJpWXpVdFpUTm1NUzAwWWpjNUxUaGxaV010TXpjNE5qazVZemxtTTJGbCJ9
-          ./cloudflared.exe tunnel run --token eyJhIjoiOWFjMWUxOTExMmU5ZWZmZDIzNmFlNDk1NDIyYmY2ZjgiLCJ0IjoiNTVkZmIxNmMtODI0Yy00MTY5LWI5ZWUtMWYxZDU0ZDliNWVkIiwicyI6Ik1XWTJaakJpWXpVdFpUTm1NUzAwWWpjNUxUaGxaV010TXpjNE5qazVZemxtTTJGbCJ9 --loglevel debug
+          # ./cloudflared.exe tunnel run --token eyJhIjoiOWFjMWUxOTExMmU5ZWZmZDIzNmFlNDk1NDIyYmY2ZjgiLCJ0IjoiNTVkZmIxNmMtODI0Yy00MTY5LWI5ZWUtMWYxZDU0ZDliNWVkIiwicyI6Ik1XWTJaakJpWXpVdFpUTm1NUzAwWWpjNUxUaGxaV010TXpjNE5qazVZemxtTTJGbCJ9 --loglevel debug
 
           Start-Sleep -Seconds 20600
