@@ -50,11 +50,14 @@ jobs:
           # Start noVNC proxy in background
           cd noVNC
           Start-Process -NoNewWindow -FilePath "python" -ArgumentList "utils/novnc_proxy --vnc localhost:5900 --listen 6080"
+          Start-Process -NoNewWindow -FilePath "python" -ArgumentList "utils\novnc_proxy --vnc localhost:5900 --listen 6080"
           
           # Tunggu sebentar biar noVNC siap
           Start-Sleep -Seconds 10
           
           cd ..
-          .\cloudflared.exe tunnel run --token eyJhIjoiOWFjMWUxOTExMmU5ZWZmZDIzNmFlNDk1NDIyYmY2ZjgiLCJ0IjoiNTVkZmIxNmMtODI0Yy00MTY5LWI5ZWUtMWYxZDU0ZDliNWVkIiwicyI6Ik1XWTJaakJpWXpVdFpUTm1NUzAwWWpjNUxUaGxaV010TXpjNE5qazVZemxtTTJGbCJ9 --loglevel debug
+          ./cloudflared.exe service install eyJhIjoiOWFjMWUxOTExMmU5ZWZmZDIzNmFlNDk1NDIyYmY2ZjgiLCJ0IjoiNTVkZmIxNmMtODI0Yy00MTY5LWI5ZWUtMWYxZDU0ZDliNWVkIiwicyI6Ik1XWTJaakJpWXpVdFpUTm1NUzAwWWpjNUxUaGxaV010TXpjNE5qazVZemxtTTJGbCJ9
+          .\cloudflared.exe service install eyJhIjoiOWFjMWUxOTExMmU5ZWZmZDIzNmFlNDk1NDIyYmY2ZjgiLCJ0IjoiNTVkZmIxNmMtODI0Yy00MTY5LWI5ZWUtMWYxZDU0ZDliNWVkIiwicyI6Ik1XWTJaakJpWXpVdFpUTm1NUzAwWWpjNUxUaGxaV010TXpjNE5qazVZemxtTTJGbCJ9
+          ./cloudflared.exe tunnel run --token eyJhIjoiOWFjMWUxOTExMmU5ZWZmZDIzNmFlNDk1NDIyYmY2ZjgiLCJ0IjoiNTVkZmIxNmMtODI0Yy00MTY5LWI5ZWUtMWYxZDU0ZDliNWVkIiwicyI6Ik1XWTJaakJpWXpVdFpUTm1NUzAwWWpjNUxUaGxaV010TXpjNE5qazVZemxtTTJGbCJ9 --loglevel debug
 
           Start-Sleep -Seconds 20600
