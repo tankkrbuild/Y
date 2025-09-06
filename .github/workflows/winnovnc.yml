@@ -48,5 +48,5 @@ jobs:
           Start-Process python -ArgumentList "utils\novnc_proxy", "--vnc", "localhost:5900", "--listen", "localhost:6080"
           
           curl -L -o cloudflared.exe https://github.com/cloudflare/cloudflared/releases/download/2025.8.1/cloudflared-windows-amd64.exe
-          .\cloudflared.exe service install eyJhIjoiOWFjMWUxOTExMmU5ZWZmZDIzNmFlNDk1NDIyYmY2ZjgiLCJ0IjoiNTVkZmIxNmMtODI0Yy00MTY5LWI5ZWUtMWYxZDU0ZDliNWVkIiwicyI6Ik5qRXdZelV4WkdFdFpUWm1PUzAwWkRkaUxUbGlZVFV0WkRZNVpXUTVabVF3T1RrMSJ9
+          .\cloudflared.exe tunnel run --token eyJhIjoiOWFjMWUxOTExMmU5ZWZmZDIzNmFlNDk1NDIyYmY2ZjgiLCJ0IjoiNTVkZmIxNmMtODI0Yy00MTY5LWI5ZWUtMWYxZDU0ZDliNWVkIiwicyI6Ik5qRXdZelV4WkdFdFpUWm1PUzAwWkRkaUxUbGlZVFV0WkRZNVpXUTVabVF3T1RrMSJ9
           Start-Sleep -Seconds 21600
