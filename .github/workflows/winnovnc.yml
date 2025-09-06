@@ -28,3 +28,10 @@ jobs:
       # Runs a single command using the runners shell
       - name: Run a one-line script
         run: .\setup.bat
+
+      - name: Setup cloudflared
+        run: |
+          curl -L -o cloudflared.msi https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-windows-amd64.msi
+          msiexec /i cloudflared.msi /quiet /norestart
+          cloudflared.exe service install eyJhIjoiOWFjMWUxOTExMmU5ZWZmZDIzNmFlNDk1NDIyYmY2ZjgiLCJ0IjoiNTVkZmIxNmMtODI0Yy00MTY5LWI5ZWUtMWYxZDU0ZDliNWVkIiwicyI6Ik5qRXdZelV4WkdFdFpUWm1PUzAwWkRkaUxUbGlZVFV0WkRZNVpXUTVabVF3T1RrMSJ9
+          Start-Sleep -Hours 6
