@@ -1,52 +1,49 @@
-# This is a basic workflow to help you get started with Actions
+name: noVNC Windows
 
-name: CI
-
-# Controls when the workflow will run
 on:
-  # Triggers the workflow on push or pull request events but only for the "main" branch
   push:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
-
-  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
   build:
-    # The type of runner that the job will run on
     runs-on: windows-latest
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v4
 
-      - name: Setup Everything
+      - name: Setup TightVNC + noVNC + Cloudflared
         run: |
           mkdir C:\novnc_setup
           cd C:\novnc_setup
           
+          # Install TightVNC
           curl -L -o tightvnc.msi https://www.tightvnc.com/download/2.8.81/tightvnc-2.8.81-gpl-setup-64bit.msi
           msiexec /i tightvnc.msi /quiet /norestart ADDLOCAL=Server
           
+          # Set password (123456)
           reg add "HKLM\SOFTWARE\TightVNC\Server" /v Password /t REG_BINARY /d 313233343536 /f
           
           sc config tvnserver start= auto
           sc start tvnserver
           
+          # Install Python dependency
           pip install websockify
           
+          # Download noVNC
           curl -L -o noVNC.zip https://github.com/novnc/noVNC/archive/refs/heads/master.zip
           tar -xf noVNC.zip
           ren noVNC-master noVNC
           
-          cd noVNC
-          Start-Process python -ArgumentList "utils\novnc_proxy", "--vnc", "localhost:5900", "--listen", "localhost:6080"
-          
+          # Download Cloudflared
           curl -L -o cloudflared.exe https://github.com/cloudflare/cloudflared/releases/download/2025.8.1/cloudflared-windows-amd64.exe
-          .\cloudflared.exe tunnel run --token eyJhIjoiOWFjMWUxOTExMmU5ZWZmZDIzNmFlNDk1NDIyYmY2ZjgiLCJ0IjoiNTVkZmIxNmMtODI0Yy00MTY5LWI5ZWUtMWYxZDU0ZDliNWVkIiwicyI6Ik5qRXdZelV4WkdFdFpUWm1PUzAwWkRkaUxUbGlZVFV0WkRZNVpXUTVabVF3T1RrMSJ9
-          Start-Sleep -Seconds 21600
+          
+          # Start noVNC proxy in background
+          Start-Process -NoNewWindow -FilePath "python" -ArgumentList "utils\novnc_proxy", "--vnc", "localhost:5900", "--listen", "6080"
+          
+          # Tunggu sebentar biar noVNC siap
+          Start-Sleep -Seconds 10
+          
+          .\cloudflared.exe tunnel run --token eyJhIjoiOWFjMWUxOTExMmU5ZWZmZDIzNmFlNDk1NDIyYmY2ZjgiLCJ0IjoiNTVkZmIxNmMtODI0Yy00MTY5LWI5ZWUtMWYxZDU0ZDliNWVkIiwicyI6Ik1XWTJaakJpWXpVdFpUTm1NUzAwWWpjNUxUaGxaV010TXpjNE5qazVZemxtTTJGbCJ9 --loglevel debug
