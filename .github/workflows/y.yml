@@ -15,7 +15,6 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Setup TightVNC + noVNC + Cloudflared
-        shell: powershell
         run: |
           mkdir C:\novnc_setup
           cd C:\novnc_setup
