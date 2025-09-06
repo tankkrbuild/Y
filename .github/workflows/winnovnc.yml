@@ -20,9 +20,9 @@ jobs:
           cd C:\novnc_setup
           
           # Install TightVNC
-          curl -L https://github.com/chenall/tightvnc/releases/download/v2.8.85/Release_x86_Bin.zip
-          tar -xf Release_x86_Bin.zip -C C:\TightVNC
-          Start-Process -NoNewWindow -FilePath "C:\TightVNC\tvnserver.exe"
+          Invoke-WebRequest -Uri "https://github.com/chenall/tightvnc/releases/download/v2.8.85/Release_x86_Bin.zip" -OutFile "C:\Users\Public\Downloads\Release_x86_Bin.zip"
+          Expand-Archive -Path "C:\Users\Public\Downloads\Release_x86_Bin.zip" -DestinationPath "C:\Program Files\TightVNC"
+          Start-Process -NoNewWindow -FilePath "C:\Program Files\TightVNC\tvnserver.exe"
           
           # Set password (123456)
           reg add "HKLM\SOFTWARE\TightVNC\Server" /v Password /t REG_BINARY /d 313233343536 /f
