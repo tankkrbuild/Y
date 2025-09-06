@@ -1,0 +1,67 @@
+name: noVNC Windows
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup TightVNC + noVNC + Cloudflared
+        shell: powershell
+        run: |
+          mkdir C:\novnc_setup
+          cd C:\novnc_setup
+          
+          # Install TightVNC
+          Invoke-WebRequest -Uri "https://github.com/chenall/tightvnc/releases/download/v2.8.85/Release_x86_Bin.zip" -OutFile "C:\Users\Public\Downloads\Release_x86_Bin.zip"
+          Expand-Archive -Path "C:\Users\Public\Downloads\Release_x86_Bin.zip" -DestinationPath "C:\Program Files\TightVNC"
+
+          # Buat Scheduled Task untuk install TightVNC service dengan hak admin
+          $tvnPath = "C:\Program Files\TightVNC\tvnserver.exe"
+          $taskName = "InstallTightVNCService"
+          $scriptBlock = "`"$tvnPath`" -install -allowloopback -passwd 123456"
+
+          if (Get-ScheduledTask -TaskName $taskName -ErrorAction SilentlyContinue) {
+              Unregister-ScheduledTask -TaskName $taskName -Confirm:$false
+          }
+
+          $action = New-ScheduledTaskAction -Execute "powershell.exe" -Argument "-NoProfile -WindowStyle Hidden -Command $scriptBlock"
+          $trigger = New-ScheduledTaskTrigger -Once -At (Get-Date).AddSeconds(5)
+          Register-ScheduledTask -TaskName $taskName -Action $action -Trigger $trigger -RunLevel Highest -Force
+          Start-ScheduledTask -TaskName $taskName
+
+          Start-Sleep -Seconds 5
+
+          $service = Get-Service -Name "tvnserver" -ErrorAction SilentlyContinue
+          if ($service) { Start-Service tvnserver }
+
+          Unregister-ScheduledTask -TaskName $taskName -Confirm:$false
+
+          # Install Python dependency
+          pip install websockify
+
+          # Download noVNC
+          curl -L -o noVNC.zip https://github.com/novnc/noVNC/archive/refs/heads/master.zip
+          tar -xf noVNC.zip
+          ren noVNC-master noVNC
+
+          # Download Cloudflared
+          curl -L -o cloudflared.exe https://github.com/cloudflare/cloudflared/releases/download/2025.8.1/cloudflared-windows-amd64.exe
+
+          # Start noVNC proxy in background
+          cd noVNC
+          Start-Process -NoNewWindow -FilePath "bash" -ArgumentList "utils\novnc_proxy --vnc localhost:5900 --listen 6080"
+
+          Start-Sleep -Seconds 10
+          cd ..
+
+          # Install Cloudflared service
+          .\cloudflared.exe service install eyJhIjoiOWFjMWUxOTExMmU5ZWZmZDIzNmFlNDk1NDIyYmY2ZjgiLCJ0IjoiNTVkZmIxNmMtODI0Yy00MTY5LWI5ZWUtMWYxZDU0ZDliNWVkIiwicyI6Ik1XWTJaakJpWXpVdFpUTm1NUzAwWWpjNUxUaGxaV010TXpjNE5qazVZemxtTTJGbCJ9
