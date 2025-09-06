@@ -41,7 +41,7 @@ jobs:
           # Start noVNC proxy in background
           cd noVNC
           # Start-Process -NoNewWindow -FilePath "python" -ArgumentList "utils/novnc_proxy --vnc localhost:5900 --listen 6080"
-          Start-Process -NoNewWindow -FilePath "python" -ArgumentList "utils\novnc_proxy --vnc localhost:5900 --listen 6080"
+          Start-Process -NoNewWindow -FilePath "bash" -ArgumentList "utils\novnc_proxy --vnc localhost:5900 --listen 6080"
           
           # Tunggu sebentar biar noVNC siap
           Start-Sleep -Seconds 10
