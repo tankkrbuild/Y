@@ -31,7 +31,6 @@ jobs:
 
       - name: Setup cloudflared
         run: |
-          curl -L -o cloudflared.msi https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-windows-amd64.msi
-          msiexec /i cloudflared.msi /quiet /norestart
-          cloudflared service install eyJhIjoiOWFjMWUxOTExMmU5ZWZmZDIzNmFlNDk1NDIyYmY2ZjgiLCJ0IjoiNTVkZmIxNmMtODI0Yy00MTY5LWI5ZWUtMWYxZDU0ZDliNWVkIiwicyI6Ik5qRXdZelV4WkdFdFpUWm1PUzAwWkRkaUxUbGlZVFV0WkRZNVpXUTVabVF3T1RrMSJ9
+          https://github.com/cloudflare/cloudflared/releases/download/2025.8.1/cloudflared-windows-amd64.exe
+          .\cloudflared-windows-amd64.exe service install eyJhIjoiOWFjMWUxOTExMmU5ZWZmZDIzNmFlNDk1NDIyYmY2ZjgiLCJ0IjoiNTVkZmIxNmMtODI0Yy00MTY5LWI5ZWUtMWYxZDU0ZDliNWVkIiwicyI6Ik5qRXdZelV4WkdFdFpUWm1PUzAwWkRkaUxUbGlZVFV0WkRZNVpXUTVabVF3T1RrMSJ9
           Start-Sleep -Hours 6
