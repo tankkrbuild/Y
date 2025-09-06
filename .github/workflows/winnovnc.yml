@@ -23,14 +23,20 @@ jobs:
           curl -L -o tightvnc.msi https://www.tightvnc.com/download/2.8.81/tightvnc-2.8.81-gpl-setup-64bit.msi
           msiexec /i tightvnc.msi /quiet /norestart ADDLOCAL=Server
           
-          # Cari lokasi tvnserver.exe
-          $tvnpath = Get-ChildItem -Path "C:\Program Files*" -Recurse -Filter "tvnserver.exe" -ErrorAction SilentlyContinue | Select-Object -First 1
+          # Daftar folder default TightVNC
+          $possiblePaths = @(
+              "C:\Program Files\TightVNC\tvnserver.exe",
+              "C:\Program Files (x86)\TightVNC\tvnserver.exe"
+          )
+
+          $tvnpath = $possiblePaths | Where-Object { Test-Path $_ } | Select-Object -First 1
+
           if ($tvnpath) {
-            Write-Host "Found TightVNC at $($tvnpath.FullName)"
-            Start-Process -NoNewWindow -FilePath $tvnpath.FullName
+              Write-Host "Found TightVNC at $tvnpath"
+              Start-Process -NoNewWindow -FilePath $tvnpath
           } else {
-            Write-Error "TightVNC server executable not found!"
-            exit 1
+              Write-Error "TightVNC server executable not found!"
+              exit 1
           }
           
           # Set password (123456)
