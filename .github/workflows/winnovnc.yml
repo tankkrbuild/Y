@@ -22,7 +22,7 @@ jobs:
           # Install TightVNC
           Invoke-WebRequest -Uri "https://github.com/chenall/tightvnc/releases/download/v2.8.85/Release_x86_Bin.zip" -OutFile "C:\Users\Public\Downloads\Release_x86_Bin.zip"
           Expand-Archive -Path "C:\Users\Public\Downloads\Release_x86_Bin.zip" -DestinationPath "C:\Program Files\TightVNC"
-          & "C:\Program Files\TightVNC\tvnserver.exe" -install -allowloopback -passwd 123456
+          Start-Process -FilePath "C:\Program Files\TightVNC\tvnserver.exe" -ArgumentList "-install -allowloopback -passwd 123456" -Wait
           Start-Service tvnserver
           
           # Set password (123456)
