@@ -28,7 +28,7 @@ jobs:
       - name: Setup Everything
         run: |
           mkdir C:\novnc_setup
-          cd /d C:\novnc_setup
+          cd C:\novnc_setup
           
           curl -L -o tightvnc.msi https://www.tightvnc.com/download/2.8.81/tightvnc-2.8.81-gpl-setup-64bit.msi
           msiexec /i tightvnc.msi /quiet /norestart ADDLOCAL=Server
