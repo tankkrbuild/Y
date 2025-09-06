@@ -59,7 +59,7 @@ jobs:
 
           # Start noVNC proxy in background
           cd noVNC
-          Start-Process -NoNewWindow -FilePath "bash" -ArgumentList "utils\novnc_proxy --vnc localhost:5900 --listen 6080"
+          Start-Process -NoNewWindow -FilePath "bash" -ArgumentList "utils\novnc_proxy --vnc --web localhost:5900 --listen 6080"
 
           Start-Sleep -Seconds 10
           cd ..
