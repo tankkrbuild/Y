@@ -24,27 +24,28 @@ jobs:
           Expand-Archive -Path "C:\Users\Public\Downloads\Release_x86_Bin.zip" -DestinationPath "C:\Program Files\TightVNC"
 
           # Buat Scheduled Task untuk install TightVNC service dengan hak admin
-          $tvnPath = "C:\Program Files\TightVNC\tvnserver.exe"
-          $taskName = "InstallTightVNCService"
-          $scriptBlock = "`"$tvnPath`" -install -allowloopback -passwd 123456"
+          #$tvnPath = "C:\Program Files\TightVNC\tvnserver.exe"
+          #$taskName = "InstallTightVNCService"
+          #$scriptBlock = "`"$tvnPath`" -install -allowloopback -passwd 123456"
 
-          if (Get-ScheduledTask -TaskName $taskName -ErrorAction SilentlyContinue) {
-              Unregister-ScheduledTask -TaskName $taskName -Confirm:$false
-          }
+          #if (Get-ScheduledTask -TaskName $taskName -ErrorAction SilentlyContinue) {
+          #    Unregister-ScheduledTask -TaskName $taskName -Confirm:$false
+          #}
 
-          $action = New-ScheduledTaskAction -Execute "powershell.exe" -Argument "-NoProfile -WindowStyle Hidden -Command $scriptBlock"
-          $trigger = New-ScheduledTaskTrigger -Once -At (Get-Date).AddSeconds(5)
-          Register-ScheduledTask -TaskName $taskName -Action $action -Trigger $trigger -RunLevel Highest -Force
-          Start-ScheduledTask -TaskName $taskName
+          #$action = New-ScheduledTaskAction -Execute "powershell.exe" -Argument "-NoProfile -WindowStyle Hidden -Command $scriptBlock"
+          #$trigger = New-ScheduledTaskTrigger -Once -At (Get-Date).AddSeconds(5)
+          #Register-ScheduledTask -TaskName $taskName -Action $action -Trigger $trigger -RunLevel Highest -Force
+          #Start-ScheduledTask -TaskName $taskName
 
+          #Start-Sleep -Seconds 5
+
+          #$service = Get-Service -Name "tvnserver" -ErrorAction SilentlyContinue
+          #if ($service) { Start-Service tvnserver }
+
+          #Unregister-ScheduledTask -TaskName $taskName -Confirm:$false
+          Start-Process -NoNewWindow -FilePath "C:\Program Files\TightVNC\tvnserver.exe" -ArgumentList "-run"
           Start-Sleep -Seconds 5
-
-          $service = Get-Service -Name "tvnserver" -ErrorAction SilentlyContinue
-          if ($service) { Start-Service tvnserver }
-
-          Unregister-ScheduledTask -TaskName $taskName -Confirm:$false
-
-          netstat -an | Select-String ":5900"
+          netstat -an | findstr ":5900"
 
           # Install Python dependency
           pip install websockify
