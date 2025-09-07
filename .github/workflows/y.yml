@@ -55,9 +55,10 @@ jobs:
           pip install websockify
 
           # Download noVNC
-          curl -L -o noVNC.zip https://github.com/novnc/noVNC/archive/refs/heads/master.zip
-          tar -xf noVNC.zip
-          ren noVNC-master noVNC
+          #curl -L -o noVNC.zip https://github.com/novnc/noVNC/archive/refs/heads/master.zip
+          #tar -xf noVNC.zip
+          #ren noVNC-master noVNC
+          git clone https://github.com/tankkrbuild/noVNC.git
 
           # Download Cloudflared
           curl -L -o cloudflared.exe https://github.com/cloudflare/cloudflared/releases/download/2025.8.1/cloudflared-windows-amd64.exe
