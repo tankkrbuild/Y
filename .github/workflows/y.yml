@@ -59,7 +59,7 @@ jobs:
 
           # Start noVNC proxy in background
           cd noVNC
-          awk '{if($0~/exit 1/){c++; if(c==4){$0="exit 0"}}; print}' utils\novnc_proxy > utils\novnc_proxytmp && rm utils\novnc_proxy && mv utils\novnc_proxytmp utils\novnc_proxy
+          awk '{if($0~/exit 1/){c++; if(c==4){$0="echo lanjut"}}; print}' utils\novnc_proxy > utils\novnc_proxytmp && rm utils\novnc_proxy && mv utils\novnc_proxytmp utils\novnc_proxy
           Start-Process -NoNewWindow -FilePath "bash" -ArgumentList "utils\novnc_proxy --vnc localhost:5900 --listen 6080 --web C:\novnc_setup\noVNC"
 
           Start-Sleep -Seconds 10
