@@ -43,7 +43,7 @@ jobs:
           #if ($service) { Start-Service tvnserver }
 
           #Unregister-ScheduledTask -TaskName $taskName -Confirm:$false
-          Start-Process -NoNewWindow -FilePath "C:\Program Files\TightVNC\tvnserver.exe" -ArgumentList "-run -allowloopback"
+          Start-Process -NoNewWindow -FilePath "C:\Program Files\TightVNC\tvnserver.exe" -ArgumentList "-run -localhost"
           Start-Sleep -Seconds 5
           netstat -an | findstr ":5900"
 
