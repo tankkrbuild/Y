@@ -44,7 +44,8 @@ jobs:
 
           #Unregister-ScheduledTask -TaskName $taskName -Confirm:$false
           reg add "HKCU\Software\TightVNC\Server" /v AllowLoopback /t REG_DWORD /d 1 /f
-          reg add "HKCU\Software\TightVNC\Server" /v Password /t REG_BINARY /d 192f9f320a4a01fd /f
+          #reg add "HKCU\Software\TightVNC\Server" /v Password /t REG_BINARY /d 192f9f320a4a01fd /f
+          reg add "HKCU\SOFTWARE\TightVNC\Server" /v UseVncAuthentication /t REG_DWORD /d 0x0 /f
           Start-Process -NoNewWindow -FilePath "C:\Program Files\TightVNC\tvnserver.exe" -ArgumentList "-reload"
           Start-Process -NoNewWindow -FilePath "C:\Program Files\TightVNC\tvnserver.exe" -ArgumentList "-run"
           Start-Sleep -Seconds 5
